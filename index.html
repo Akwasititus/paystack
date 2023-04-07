@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>
+            Paystack
+        </title>
+    </head>
+    
+    <body>
+
+        <section>
+            <form id="paymentForm">
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" id="email-address" required />
+  </div>
+  <div class="form-group">
+    <label for="amount">Amount</label>
+    <input type="tel" id="amount" required />
+  </div>
+  <div class="form-group">
+    <label for="first-name">First Name</label>
+    <input type="text" id="first-name" />
+  </div>
+  <div class="form-group">
+    <label for="last-name">Last Name</label>
+    <input type="text" id="last-name" />
+  </div>
+  <div class="form-submit">
+    <button type="submit" onclick="payWithPaystack()"> Pay </button>
+  </div>
+</form>
+
+<script>
+const paymentForm = document.getElementById('paymentForm');
+paymentForm.addEventListener("submit", payWithPaystack, false);
+
+
+function payWithPaystack(e) {
+  e.preventDefault();
+  let handler = PaystackPop.setup({
+    key: 'pk_test_85d58ee05a129db2ae20d077cb07516bd0035af8', // Replace with your public key
+    email: document.getElementById("email-address").value,
+    amount: document.getElementById("amount").value * 100,
+    currency: 'GHS',
+    ref: document.getElementById("first-name").value,
+    label: document.getElementById("first-name").value,
+    onClose: function(){
+      alert('Window closed.');
+    },
+    callback: function(response){
+      let message = 'Payment complete! Reference: ' + response.reference;
+      alert(message);
+    }
+  });
+
+  handler.openIframe();
+}
+</script>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+
+        </section>
+    </body>
+</html>
